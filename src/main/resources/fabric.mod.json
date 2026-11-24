@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "irlfog",
+  "version": "${version}",
+  "name": "IRLfog",
+  "description": "Аддон к IRL Redactor: объёмный дым и туман собственным движком (рэймарчинг, физика, свет, ключевые кадры). Окно «Дым» открывается вместе с редактором света (J).",
+  "authors": [
+    "Dronchik"
+  ],
+  "license": "MIT",
+  "icon": "assets/irlfog/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.dronchik.irlfog.IrlFogClient"
+    ]
+  },
+  "mixins": [
+    "irlfog.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "fabric-api": "*",
+    "irl-redactor": "*"
+  }
+}

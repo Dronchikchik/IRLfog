@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "irlfog-gametest",
+  "version": "1",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-client-gametest": ["dev.dronchik.irlfog.gametest.SmokeGameTest"]
+  },
+  "depends": { "irlfog": "*" }
+}

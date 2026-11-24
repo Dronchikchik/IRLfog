@@ -1,0 +1,45 @@
+plugins {
+    id 'fabric-loom' version '1.17.21'
+}
+
+version = project.mod_version
+group = project.maven_group
+base { archivesName = project.archives_base_name }
+
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = 'irlfog-gametest'
+        enableGameTests = false
+        enableClientGameTests = true
+        eula = true
+    }
+}
+
+// libs/ не в git: irl-redactor jar из профиля pvp + imgui-java-binding, вынутый из его META-INF/jars
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modCompileOnly files('libs/irl-redactor-1.1.8+mc1.21.11.jar')
+    compileOnly files('libs/imgui-java-binding-1.89.0.jar')
+    modLocalRuntime files('libs/irl-redactor-1.1.8+mc1.21.11.jar', 'libs/irl-core-1.1.7.jar')
+    if (project.hasProperty('devModsDir')) {
+        modLocalRuntime fileTree(project.property('devModsDir')) { include 'iris-fabric-*.jar', 'sodium-fabric-*.jar' }
+    }
+    if (project.hasProperty('devLibsDir')) {
+        localRuntime fileTree(project.property('devLibsDir')) { include '*.jar' }
+    }
+    localRuntime files('libs/imgui-java-binding-1.89.0.jar', 'libs/imgui-java-lwjgl3-1.89.0.jar', 'libs/imgui-java-natives-windows-1.89.0.jar')
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") { expand "version": project.version }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    it.options.encoding = 'UTF-8'
+}
